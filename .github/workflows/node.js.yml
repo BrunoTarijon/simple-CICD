@@ -33,25 +33,25 @@ jobs:
   # AWS deploy
   deploy:
     runs-on: ubuntu-latest
-      needs: build
-      if: github.ref == 'refs/heads/main'
-      steps:
-      # Step 1
-        - name: Configure AWS credentials
-          uses: aws-actions/configure-aws-credentials@v1
-          with:
-            aws-access-key-id:${{ secrets.AWS_ACCESS_KEY_ID }}
-            aws-secret-access-key:${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            aws-region: ap-southeast-1
-      # Step 2
-        - name: Create CodeDeploy Deployment
-          id: deploy
-          run: |
-            aws deploy create-deployment \
-              --application-name simple-CICD \
-              --deployment-group-name simple-CICD-grupo \
-              --deployment-config-name CodeDeployDefault.OneAtATime \
-              --github-location repository=${{ github.repository }},commitId=${{ github.sha }}
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    steps:
+    # Step 1
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id:${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key:${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-southeast-1
+    # Step 2
+      - name: Create CodeDeploy Deployment
+        id: deploy
+        run: |
+          aws deploy create-deployment \
+            --application-name simple-CICD \
+            --deployment-group-name simple-CICD-grupo \
+            --deployment-config-name CodeDeployDefault.OneAtATime \
+            --github-location repository=${{ github.repository }},commitId=${{ github.sha }}
 
   # Heroku deploy
   # deploy:
