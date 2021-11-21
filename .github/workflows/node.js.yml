@@ -31,10 +31,10 @@ jobs:
     - run: npm test
   
   # AWS deploy
-  deploy:
+  aws-deploy:
     runs-on: ubuntu-latest
     needs: build
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/master'
     steps:
     # Step 1
       - name: Configure AWS credentials
